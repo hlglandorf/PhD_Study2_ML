@@ -1,4 +1,4 @@
-# PhD_Study2 Machine Learning Application
+# PhD Study 2 Machine Learning Application
 This repository holds python code files for an exploration of data from my second PhD study (first timepoint/wave) with machine learning algorithms.
 
 The data is from my second PhD study, available on psycharchives: https://doi.org/10.23668/psycharchives.14066.
