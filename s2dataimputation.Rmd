@@ -1,0 +1,247 @@
+---
+title: "Study2_Imputation"
+author: "H.L. Glandorf"
+date: "2024-08-29"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Study 2 Wave 1-3 Data Imputation
+
+
+# Load libraries
+```{r load libraries}
+library(readxl)
+library(tidyverse)
+library(Amelia) 
+```
+
+# Load data
+```{r load data}
+dat <- read_csv("s2full.csv")
+dat <- dat %>% filter(mental_disorder == 1, pain_meds == 1)
+```
+
+# Select data
+```{r select data}
+dat1 <- dat %>% select(id,
+                       t1trainingload, t2trainingload, t3trainingload,
+                       t1BURN, t2BURN, t3BURN, 
+                       t1DEV, t2DEV, t3DEV,
+                       t1EXH, t2EXH, t3EXH,
+                       t1RSA, t2RSA, t3RSA,
+                       t1DS, t2DS, t3DS,
+                       t1PS, t2PS, t3PS,
+                       t1WURSSg, t2WURSSg, t3WURSSg,
+                       t1PSQIg, t2PSQIg, t3PSQIg,
+                       t1LS, t2LS, t3LS)
+```
+
+# Outlier removal
+```{r outliers}
+# calculate standardised scores
+dat1z <- dat1 %>% 
+  mutate(t1train_z = scale(t1trainingload), 
+         t2train_z = scale(t2trainingload),
+         t3train_z = scale(t3trainingload),
+         t1BURN_z = scale(t1BURN),
+         t2BURN_z = scale(t2BURN),
+         t3BURN_z = scale(t3BURN),
+         t1EXH_z = scale(t1EXH),
+         t2EXH_z = scale(t2EXH),
+         t3EXH_z = scale(t3EXH),
+         t1DEV_z = scale(t1DEV),
+         t2DEV_z = scale(t2DEV),
+         t3DEV_z = scale(t3DEV),
+         t1RSA_z = scale(t1RSA),
+         t2RSA_z = scale(t2RSA),
+         t3RSA_z = scale(t3RSA),
+         t1PS_z = scale(t1PS),
+         t2PS_z = scale(t2PS),
+         t3PS_z = scale(t3PS),
+         t1DS_z = scale(t1DS),
+         t2DS_z = scale(t2DS),
+         t3DS_z = scale(t3DS),
+         t1WURSS_z = scale(t1WURSSg),
+         t2WURSS_z = scale(t2WURSSg),
+         t3WURSS_z = scale(t3WURSSg),
+         t1PSQI_z = scale(t1PSQIg),
+         t2PSQI_z = scale(t2PSQIg),
+         t3PSQI_z = scale(t3PSQIg),
+         t1LS_z = scale(t1LS),
+         t2LS_z = scale(t2LS),
+         t3LS_z = scale(t3LS))
+
+#replace extreme values with NAs
+#wave 1
+dat1z$t1trainingload <- replace(dat1z$t1trainingload, abs(dat1z$t1train_z) > 3.29, NA)
+dat1z$t1BURN <- replace(dat1z$t1BURN, abs(dat1z$t1BURN_z) > 3.29, NA)
+dat1z$t1EXH <- replace(dat1z$t1EXH, abs(dat1z$t1EXH_z) > 3.29, NA)
+dat1z$t1DEV <- replace(dat1z$t1DEV, abs(dat1z$t1DEV_z) > 3.29, NA)
+dat1z$t1RSA <- replace(dat1z$t1RSA, abs(dat1z$t1RSA_z) > 3.29, NA)
+dat1z$t1PS <- replace(dat1z$t1PS, abs(dat1z$t1PS_z) > 3.29, NA)
+dat1z$t1DS <- replace(dat1z$t1DS, abs(dat1z$t1DS_z) > 3.29, NA)
+dat1z$t1PSQIg <- replace(dat1z$t1PSQIg, abs(dat1z$t1PSQI_z) > 3.29, NA)
+dat1z$t1WURSSg <- replace(dat1z$t1WURSSg, abs(dat1z$t1WURSS_z) > 3.29, NA)
+dat1z$t1LS <- replace(dat1z$t1LS, abs(dat1z$t1LS_z) > 3.29, NA)
+#wave 2
+dat1z$t2trainingload <- replace(dat1z$t2trainingload, abs(dat1z$t2train_z) > 3.29, NA)
+dat1z$t2BURN <- replace(dat1z$t2BURN, abs(dat1z$t2BURN_z) > 3.29, NA)
+dat1z$t2EXH <- replace(dat1z$t2EXH, abs(dat1z$t2EXH_z) > 3.29, NA)
+dat1z$t2DEV <- replace(dat1z$t2DEV, abs(dat1z$t2DEV_z) > 3.29, NA)
+dat1z$t2RSA <- replace(dat1z$t2RSA, abs(dat1z$t2RSA_z) > 3.29, NA)
+dat1z$t2PS <- replace(dat1z$t2PS, abs(dat1z$t2PS_z) > 3.29, NA)
+dat1z$t2DS <- replace(dat1z$t2DS, abs(dat1z$t2DS_z) > 3.29, NA)
+dat1z$t2PSQIg <- replace(dat1z$t2PSQIg, abs(dat1z$t2PSQI_z) > 3.29, NA)
+dat1z$t2WURSSg <- replace(dat1z$t2WURSSg, abs(dat1z$t2WURSS_z) > 3.29, NA)
+dat1z$t2LS <- replace(dat1z$t2LS, abs(dat1z$t2LS_z) > 3.29, NA)
+#wave 3
+dat1z$t3trainingload <- replace(dat1z$t3trainingload, abs(dat1z$t3train_z) > 3.29, NA)
+dat1z$t3BURN <- replace(dat1z$t3BURN, abs(dat1z$t3BURN_z) > 3.29, NA)
+dat1z$t3EXH <- replace(dat1z$t3EXH, abs(dat1z$t3EXH_z) > 3.29, NA)
+dat1z$t3DEV <- replace(dat1z$t3DEV, abs(dat1z$t3DEV_z) > 3.29, NA)
+dat1z$t3RSA <- replace(dat1z$t3RSA, abs(dat1z$t3RSA_z) > 3.29, NA)
+dat1z$t3PS <- replace(dat1z$t3PS, abs(dat1z$t3PS_z) > 3.29, NA)
+dat1z$t3DS <- replace(dat1z$t3DS, abs(dat1z$t3DS_z) > 3.29, NA)
+dat1z$t3PSQIg <- replace(dat1z$t3PSQIg, abs(dat1z$t3PSQI_z) > 3.29, NA)
+dat1z$t3WURSSg <- replace(dat1z$t3WURSSg, abs(dat1z$t3WURSS_z) > 3.29, NA)
+dat1z$t3LS <- replace(dat1z$t3LS, abs(dat1z$t3LS_z) > 3.29, NA)
+```
+
+# Reformat
+```{r reformating}
+# create long formats
+# training load
+datl_train <- dat1z %>% 
+  dplyr::select(id, t1trainingload, t2trainingload, t3trainingload) %>%
+  pivot_longer(cols = c(t1trainingload, t2trainingload, t3trainingload),
+                               names_to = "timepoint",
+                               values_to = "trainload") %>%
+  mutate(timepoint = case_when(timepoint== "t1trainingload" ~ 1, 
+                         timepoint =="t2trainingload" ~ 2,
+                         timepoint =="t3trainingload" ~ 3))
+# total burnout
+datl_tb <- dat1z %>% 
+  dplyr::select(id, t1BURN, t2BURN, t3BURN) %>%
+  pivot_longer(cols = c(t1BURN, t2BURN, t3BURN),
+                               names_to = "timepoint",
+                               values_to = "BURN") %>%
+  mutate(timepoint = case_when(timepoint== "t1BURN" ~ 1, 
+                         timepoint =="t2BURN" ~ 2,
+                         timepoint =="t3BURN" ~ 3))
+# exhaustion
+datl_exh <- dat1z %>% 
+  dplyr::select(id, t1EXH, t2EXH, t3EXH) %>%
+  pivot_longer(cols = c(t1EXH, t2EXH, t3EXH),
+                               names_to = "timepoint",
+                               values_to = "EXH") %>%
+  mutate(timepoint = case_when(timepoint== "t1EXH" ~ 1, 
+                         timepoint =="t2EXH" ~ 2,
+                         timepoint =="t3EXH" ~ 3))
+# devaluation
+datl_dev <- dat1z %>% 
+  dplyr::select(id, t1DEV, t2DEV, t3DEV) %>%
+  pivot_longer(cols = c(t1DEV, t2DEV, t3DEV),
+                               names_to = "timepoint",
+                               values_to = "DEV") %>%
+  mutate(timepoint = case_when(timepoint== "t1DEV" ~ 1, 
+                         timepoint =="t2DEV" ~ 2,
+                         timepoint =="t3DEV" ~ 3))
+# reduced sense of accomplishment
+datl_rsa <- dat1z %>% 
+  dplyr::select(id, t1RSA, t2RSA, t3RSA) %>%
+  pivot_longer(cols = c(t1RSA, t2RSA, t3RSA),
+                               names_to = "timepoint",
+                               values_to = "RSA") %>%
+  mutate(timepoint = case_when(timepoint== "t1RSA" ~ 1, 
+                         timepoint =="t2RSA" ~ 2,
+                         timepoint =="t3RSA" ~ 3))
+# physical symptoms
+datl_ps <- dat1z %>% 
+  dplyr::select(id, t1PS, t2PS, t3PS) %>%
+  pivot_longer(cols = c(t1PS, t2PS, t3PS),
+                               names_to = "timepoint",
+                               values_to = "PS") %>%
+  mutate(timepoint = case_when(timepoint== "t1PS" ~ 1, 
+                         timepoint =="t2PS" ~ 2,
+                         timepoint =="t3PS" ~ 3))
+# depressive symptoms
+datl_ds <- dat1z %>% 
+  dplyr::select(id, t1DS, t2DS, t3DS) %>%
+  pivot_longer(cols = c(t1DS, t2DS, t3DS),
+                               names_to = "timepoint",
+                               values_to = "DS") %>%
+  mutate(timepoint = case_when(timepoint== "t1DS" ~ 1, 
+                         timepoint =="t2DS" ~ 2,
+                         timepoint =="t3DS" ~ 3))
+# sleep
+datl_psqi <- dat1z %>% 
+  dplyr::select(id, t1PSQIg, t2PSQIg, t3PSQIg) %>%
+  pivot_longer(cols = c(t1PSQIg, t2PSQIg, t3PSQIg),
+                               names_to = "timepoint",
+                               values_to = "PSQIg") %>%
+  mutate(timepoint = case_when(timepoint== "t1PSQIg" ~ 1, 
+                         timepoint =="t2PSQIg" ~ 2,
+                         timepoint =="t3PSQIg" ~ 3))
+# illness
+datl_ill <- dat1z %>% 
+  dplyr::select(id, t1WURSSg, t2WURSSg, t3WURSSg) %>%
+  pivot_longer(cols = c(t1WURSSg, t2WURSSg, t3WURSSg),
+                               names_to = "timepoint",
+                               values_to = "WURSSg") %>%
+  mutate(timepoint = case_when(timepoint== "t1WURSSg" ~ 1, 
+                         timepoint =="t2WURSSg" ~ 2,
+                         timepoint =="t3WURSSg" ~ 3))
+# life satisfaction
+datl_ls <- dat1z %>% 
+  dplyr::select(id, t1LS, t2LS, t3LS) %>%
+  pivot_longer(cols = c(t1LS, t2LS, t3LS),
+                               names_to = "timepoint",
+                               values_to = "LS") %>%
+  mutate(timepoint = case_when(timepoint== "t1LS" ~ 1, 
+                         timepoint =="t2LS" ~ 2,
+                         timepoint =="t3LS" ~ 3))
+# join files
+datl <- inner_join(datl_tb, datl_exh, by = c("id", "timepoint")) %>%
+  inner_join(datl_dev, by = c("id", "timepoint")) %>%
+  inner_join(datl_rsa, by = c("id", "timepoint")) %>%
+  inner_join(datl_ps, by = c("id", "timepoint")) %>%
+  inner_join(datl_ds, by = c("id", "timepoint")) %>%
+  inner_join(datl_psqi, by = c("id", "timepoint")) %>%
+  inner_join(datl_ill, by = c("id", "timepoint")) %>%
+  inner_join(datl_ls, by = c("id", "timepoint")) %>%
+  inner_join(datl_train, by = c("id", "timepoint"))
+```
+
+# Data imputation
+```{r imputation}
+# convert to matrix for amelia
+datlmat <- as.matrix(datl)
+
+# run amelia
+datlximp <- amelia(datlmat, m = 5, idvars = "id", ts = "timepoint", polytime = 1)
+summary(datlximp)
+
+# Initialize a matrix to store the combined imputed values
+combined_imputed <- as.data.frame(matrix(NA, nrow = nrow(datlmat), ncol = ncol(datlmat)))
+colnames(combined_imputed) <- colnames(datlmat)
+
+# Loop over each column and take the average of the imputed values
+for (i in 1:ncol(datlmat)) {
+  combined_imputed[, i] <- rowMeans(sapply(datlximp$imputations, function(x) x[, i]), na.rm = TRUE)
+}
+```
+
+# Save dataframes in csv files
+```{r write out data}
+write.csv(combined_imputed, "s2longimputed.csv")
+# turn long format into wide format
+datwide <- combined_imputed %>% 
+  pivot_wider(
+    names_from = timepoint, 
+    values_from = c(trainload, BURN, EXH, DEV, RSA, PS, DS, LS, PSQIg, WURSSg))
+write.csv(datwide, "s2wideimputed.csv") 
+```
