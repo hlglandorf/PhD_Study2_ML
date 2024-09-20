@@ -10,6 +10,7 @@ Wave 1 Folder
 - Code for a DBSCAN to identify and remove outliers
 - Code for a neural net with a continuous outcome (regression)
 - Code for a neural net with binary outcome (classification)
+
 Wave 12 to 3 Folder
 - Code for data imputation in R (imputation was carried out in R in order to use Amelia's EM algorithm with bootstrapping that is appropriate for time series data)
 - Code for a recurrent neural network to predict burnout (total burnout, continuous, regression)
