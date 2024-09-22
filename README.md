@@ -2,7 +2,7 @@
 This repository holds python and R code files for an exploration of data from my second PhD study (first timepoint/wave) with machine learning algorithms.
 
 The data is from my second PhD study, available on psycharchives: https://doi.org/10.23668/psycharchives.14066.
-Note that only the data from the first wave is used for the algorithms here, because the first wave holds the largest dataset (~ 400 participants) and is therefore the most appropriate for machine learning exploration (although still on the smaller side of datasets for deep learning). The published data only holds data from the first wave that combines with either the second or third wave, so will differ slightly from the one used for the code here. 
+Note that the first folder uses data from the first wave only, because the first wave holds the largest dataset (~ 400 participants) and is therefore the most appropriate for machine learning exploration (although still on the smaller side of datasets for deep learning). The second folder uses the data from all waves and uses data imputation to fill missing values to be able to train a recurrent neural network. The published data only holds data from the first wave that combines with either the second or third wave, so will differ slightly from the one used for the code here. 
 
 This includes:
 Wave 1 Folder
