@@ -5,6 +5,7 @@ The data is from my second PhD study, available on psycharchives: https://doi.or
 Note that the first folder uses data from the first wave only, because the first wave holds the largest dataset (~ 400 participants) and is therefore the most appropriate for machine learning exploration (although still on the smaller side of datasets for deep learning). The second folder uses the data from all waves and uses data imputation to fill missing values to be able to train a recurrent neural network. The published data only holds data from the first wave that combines with either the second or third wave, so will differ slightly from the one used for the code here. 
 
 This includes:
+
 Depression Folder
 - Code for data preparation: selection of demographic and wave 1 variables, data cleaning (incl. exclusion of participants with existing mental health disorder or taking pain medication) and data imputation in case of missing values
 - Code for a DBSCAN to identify and remove outliers
