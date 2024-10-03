@@ -17,7 +17,7 @@ Wave 12 to 3 Folder
 
 Both neural nets in the wave 1 folder are focused on the identification of depressive symptoms. The first NN focuses on predicting degree of depressive symptoms (regression), while the second focuses on identification of individuals of risk for clinical depression, which is based on the CES Depression scale (score of 16 or over considered at risk; see Radloff, 1977).
 
-The recurrent neural network is focused on predicting burnout at 6 months after baseline measurement (wave 3) via physical symptoms, illness symptoms, depressive symptoms, sleep disruptions, and life satisfaction (at waves 1 and 2). 
+The recurrent neural network is focused on predicting burnout at 6 months after baseline measurement (wave 3) via burnout, physical symptoms, illness symptoms, depressive symptoms, sleep disruptions, and life satisfaction (measurement at waves 1 and 2). 
 
 References
 Radloff, L. S. (1977). The CES-D scale: A self report depression scale for research in the general population. Applied Psychological Measurements, 1, 385-401.
