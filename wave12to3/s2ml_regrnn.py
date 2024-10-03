@@ -10,7 +10,7 @@ df = pd.read_csv("s2wideimputed.csv")
 print(df)
 
 # Pick X and y
-X = df[['trainload_1', 'trainload_2', 'PS_1', 'PS_2', 'LS_1', 'LS_2', 'PSQIg_1', 'PSQIg_2', 'WURSSg_1', 'WURSSg_2']]
+X = df[['trainload_1', 'trainload_2', 'BURN_1', 'BURN_2', 'PS_1', 'PS_2', 'LS_1', 'LS_2', 'PSQIg_1', 'PSQIg_2', 'WURSSg_1', 'WURSSg_2']]
 y = df['BURN_3']
 
 # Split the dataset into train and test set 
@@ -23,21 +23,25 @@ X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
 
 # Reformat X
-X_train = X_train.reshape((X_train.shape[0], 2, 5))
-X_test = X_test.reshape((X_test.shape[0], 2, 5))
+X_train = X_train.reshape((X_train.shape[0], 2, 6))
+X_test = X_test.reshape((X_test.shape[0], 2, 6))
 
 print(X_test)
 print(X_train)
 
 # Create a model
 model = tf.keras.Sequential([
-    tf.keras.layers.SimpleRNN(50, input_shape=(X_train.shape[1], X_train.shape[2])), #simple RNN layer
+    tf.keras.layers.LSTM(50, activation = 'tanh', return_sequences=True, input_shape=(X_train.shape[1], X_train.shape[2])), 
+    tf.keras.layers.Dropout(0.5),
+    tf.keras.layers.LSTM(50, activation = 'relu'),
+    tf.keras.layers.Dropout(0.2),
+    tf.keras.layers.Dense(20, activation='relu'),
     tf.keras.layers.Dense(units=1) #output without activation function since this is a regression problem
 ])
 print(model.summary())
 
 # Set up earlystopping and adam optimiser
-callback = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
+callback = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
 Adam = tf.keras.optimizers.Adam(learning_rate=0.001)
 
 # Compile other parameters for model
@@ -50,3 +54,9 @@ losses = model.fit(X_train, y_train,
                      batch_size=256, 
                      epochs=100,
                      callbacks=[callback])
+
+# Check whether model does better than baseline prediction
+baseline_pred = np.mean(y_train)
+baseline_mae = np.mean(np.abs(y_test - baseline_pred))
+baseline_mse = np.mean((y_test - baseline_pred)**2)
+print('baseline mae: ', baseline_mae, 'baseline mse: ', baseline_mse)
