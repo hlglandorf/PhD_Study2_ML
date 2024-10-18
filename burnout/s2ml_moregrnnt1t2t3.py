@@ -4,6 +4,7 @@ import tensorflow as tf
 from tensorflow.python.keras.callbacks import EarlyStopping
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from joblib import dump
 
 # Import data from second PhD study
 df = pd.read_csv("s2wideimputed.csv")
@@ -21,6 +22,7 @@ scaler = StandardScaler()
 scaler.fit(X_train) # fit scaler on training data
 X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
+dump(scaler, 'scaler.joblib') # save the scaler to a file
 
 # Reformat X to feed into recurrent layer
 X_train = X_train.reshape((X_train.shape[0], 2, 8))
