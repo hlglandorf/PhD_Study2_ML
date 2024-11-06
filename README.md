@@ -1,5 +1,6 @@
 # PhD Study 2 Machine Learning Application
-This repository holds python and R code files for an exploration of data from my second PhD study (first timepoint/wave) with machine learning algorithms.
+This repository holds python and R code files for an exploration of data from my second PhD study (first timepoint/wave) with machine learning algorithms and python code for the deployment of one of these models in a shiny web app: https://hlglandorf.shinyapps.io/burnout-prediction1/ 
+
 
 The data is from my second PhD study, available on psycharchives: https://doi.org/10.23668/psycharchives.14066.
 Note that the first folder uses data from the first wave only, because the first wave holds the largest dataset (~ 400 participants) and is therefore the most appropriate for machine learning exploration (although still on the smaller side of datasets for deep learning). The second folder uses the data from all waves and uses data imputation to fill missing values to be able to train a recurrent neural network. The published data only holds data from the first wave that combines with either the second or third wave, so will differ slightly from the one used for the code here. 
@@ -22,7 +23,8 @@ Both neural nets in the first folder are focused on the identification of depres
 
 The recurrent neural network is focused on predicting burnout at 6 months after baseline measurement (wave 3) via burnout, physical symptoms, illness symptoms, depressive symptoms, sleep disruptions, and life satisfaction (measurement at waves 1 and 2). Another standard deep neural network was added her as a more practical solution in the case that coaches wish to evaluate burnout risk in their athletes based on measures taken prior to/at the beginning of the season. As such, this second model predicts burnout at the end of the season (timepoint 3) based on measures taken at timepoint 1 only. Since burnout is defined by its three symptoms, a recurrent neural network that predicts these symptoms separately has also been added to provide a more informative solution as to which symptoms athletes are likely to suffer more from (based on data from timepoint 1 and 2 to predict timepoint 3). 
 
-A web application (shiny app) is currently under development. This app deploys the RNN to predict burnout symptoms in athletes. The app can be used by coaches for monitoring of atheltes' mental health and prevention of severe burnout symptoms through early identification. Python code for the app can be found in the burnout folder. Please note that this app is currently under development and thus the code reflects an alpha version. The deployment of the app can also be found here https://hlglandorf.shinyapps.io/burnout-prediction1/ 
+A web application (shiny app) is currently under development. This app deploys the RNN to predict burnout symptoms in athletes. The app can be used by coaches for monitoring of atheltes' mental health and prevention of severe burnout symptoms through early identification. Python code for the app can be found in the burnout folder. Please note that this app is currently under development and thus the code reflects an alpha version. This is a screen shot of the home:
+![shinyapp](https://github.com/user-attachments/assets/e485e885-fe88-44ff-89b1-ab61e498a07e)
 
 References
 Radloff, L. S. (1977). The CES-D scale: A self report depression scale for research in the general population. Applied Psychological Measurements, 1, 385-401.
